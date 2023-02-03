@@ -1,18 +1,36 @@
 # Vue 3 + TypeScript + Vite
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### Run：
 
-## Recommended IDE Setup
+`npm run dev` 启动本地环境
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### build：
 
-## Type Support For `.vue` Imports in TS
+`npm run build:dev` 打包本地环境
+`npm run build:pro` 打包生产环境
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### 目录结构（比较有特殊处理的目录）
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- **更快的熟悉目录结构**
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+```text
+.env 基本配置文件（通用配置）
+.env.dev 本地环境配置文件（区分环境的配置）
+.env.pro 生产环境配置文件（区分环境的配置）
+
+src/components/common 常用组件
+src/components/index.ts 会自动注册常用组件
+
+src/routes/addFrameRoute.ts 动态加载路由示例（需要改动的文件或者逻辑）
+
+src/utils/format.ts 格式化常用函数
+src/utils/test.ts 正则校验常用函数
+
+src/views/frame 项目整体搭建文件目录，通常不需要进行改动
+src/views/frame/mock.ts 模拟接口返回菜单数据（需要改动的文件或者逻辑）
+src/views/frame/index.vue 处理返回菜单数据的文件（需要改动的文件或者逻辑）
+
+src/views/business 存放业务功能文件目录
+
+src/views/template 示例模板文件目录，常用组件的示例
+```
