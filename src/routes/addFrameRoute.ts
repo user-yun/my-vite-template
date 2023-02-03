@@ -1,4 +1,5 @@
-import { Router, RouteRecordRaw } from "vue-router";
+import { AsyncComponentLoader } from "vue";
+import { Router, RouteRecordRaw, RouteComponent } from "vue-router";
 interface TEMPLATEDEMO {
   path: string;
   name: string;
@@ -15,7 +16,26 @@ const getTemplateDemo = () => {
         path: "/topMenu",
         name: "topMenuIndex",
         component: frameIdent,
-        children: [],
+        children: [
+          {
+            path: "/simulation/index",
+            name: "simulationIndex",
+            component: "/src/views/business/simulation/index.vue",
+            meta: {
+              topMenu: "/topMenu",
+              leftMenu: "/simulation/index",
+            },
+          },
+          {
+            path: "/test/index",
+            name: "testIndex",
+            component: "/src/views/business/test/index.vue",
+            meta: {
+              topMenu: "/topMenu",
+              leftMenu: "/test/index",
+            },
+          },
+        ],
       },
       {
         path: "/",
@@ -25,7 +45,7 @@ const getTemplateDemo = () => {
           {
             path: "/template/tableDemo",
             name: "templateTableDemo",
-            component: "tableDemo",
+            component: "/src/views/business/template/tableDemo.vue",
             meta: {
               topMenu: "/",
             },
@@ -33,7 +53,7 @@ const getTemplateDemo = () => {
           {
             path: "/template/inputDemo",
             name: "templateInputDemo",
-            component: "inputDemo",
+            component: "/src/views/business/template/inputDemo.vue",
             meta: {
               topMenu: "/",
             },
@@ -51,6 +71,7 @@ const getTemplateDemo = () => {
 // 路由框架父级理由承载组件
 const frameIdentComponent = () =>
   defineAsyncComponent(() => import("@/views/frame/index.vue"));
+const modules = import.meta.glob("@/views/business/*/*.vue");
 // 读取路由框架识别字段，配置父级路由时需要此字段识别，根据接口动态配置路由时，需要接口配合
 const frameIdent = import.meta.env.VITE_APP_FRAME_IDENT;
 // 处理路由动态注册
@@ -60,16 +81,19 @@ const handlerRouters = (
 ): RouteRecordRaw[] => {
   let routeRecordRaws: RouteRecordRaw[] = [];
   routers.forEach((e) => {
+    let component: RouteComponent;
+    if (e.component == frameIdent) {
+      component = frameIdentComponent;
+    } else {
+      component = defineAsyncComponent(
+        modules[e.component as string] as AsyncComponentLoader
+      );
+    }
     let routeRecordRaw: RouteRecordRaw = {
       path: e.path,
       name: e.name,
       // 根据路由框架固定字段判断是否是父路由，父路由加载承载组件，子路由加载独立组件
-      component:
-        e.component == frameIdent
-          ? frameIdentComponent
-          : defineAsyncComponent(
-              () => import(`@/views/template/${e.component}.vue`)
-            ),
+      component,
       meta: e.meta,
       children: [],
     };

@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/home",
+    path: "/",
     title: "模板示例",
     icon: "Document",
     children: [
@@ -15,6 +15,12 @@ export default [
             icon: "Document",
             children: [],
           },
+          {
+            path: "/template/inputDemo",
+            title: "输入框模板示例",
+            icon: "Document",
+            children: [],
+          },
         ],
       },
     ],
@@ -25,13 +31,19 @@ export default [
     icon: "Document",
     children: [
       {
-        path: "常用示例",
-        title: "常用示例",
+        path: "功能示例",
+        title: "功能示例",
         icon: "Document",
         children: [
           {
-            path: "/template/inputDemo",
-            title: "输入框模板示例",
+            path: "/simulation/index",
+            title: "模拟",
+            icon: "Document",
+            children: [],
+          },
+          {
+            path: "/test/index",
+            title: "测试",
             icon: "Document",
             children: [],
           },

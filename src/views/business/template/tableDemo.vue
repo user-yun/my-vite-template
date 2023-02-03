@@ -10,7 +10,7 @@
   </MyTable>
 </template>
 <script setup lang="ts">
-const tableData = [
+const tableData = ref([
   {
     date: "2016-05-03",
     name: "Tom",
@@ -136,7 +136,7 @@ const tableData = [
     name: "Tom",
     address: "No. 189, Grove St, Los Angeles",
   },
-];
+]);
 const pageChangeHandler = (data: any) => {
   console.log(data);
 };
