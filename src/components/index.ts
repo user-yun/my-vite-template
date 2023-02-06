@@ -1,4 +1,8 @@
-import { App, AsyncComponentLoader } from "@vue/runtime-dom";
+import {
+  App,
+  AsyncComponentLoader,
+  defineAsyncComponent,
+} from "@vue/runtime-dom";
 export const installCommon = {
   // 默认将common文件夹下常用的组件全局懒加载注册
   install(app: App) {

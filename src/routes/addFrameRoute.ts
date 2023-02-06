@@ -1,4 +1,4 @@
-import { AsyncComponentLoader } from "vue";
+import { AsyncComponentLoader, defineAsyncComponent } from "@vue/runtime-dom";
 import { Router, RouteRecordRaw, RouteComponent } from "vue-router";
 interface TEMPLATEDEMO {
   path: string;
@@ -23,7 +23,7 @@ const getTemplateDemo = () => {
             component: "/src/views/business/simulation/index.vue",
             meta: {
               topMenu: "/topMenu",
-              leftMenu: "/simulation/index",
+              // leftMenu: "/simulation/index",
             },
           },
           {
@@ -32,7 +32,7 @@ const getTemplateDemo = () => {
             component: "/src/views/business/test/index.vue",
             meta: {
               topMenu: "/topMenu",
-              leftMenu: "/test/index",
+              // leftMenu: "/test/index",
             },
           },
         ],
@@ -69,8 +69,9 @@ const getTemplateDemo = () => {
   });
 };
 // 路由框架父级理由承载组件
-const frameIdentComponent = () =>
-  defineAsyncComponent(() => import("@/views/frame/index.vue"));
+const frameIdentComponent = defineAsyncComponent(
+  () => import("@/views/frame/index.vue")
+);
 const modules = import.meta.glob("@/views/business/*/*.vue");
 // 读取路由框架识别字段，配置父级路由时需要此字段识别，根据接口动态配置路由时，需要接口配合
 const frameIdent = import.meta.env.VITE_APP_FRAME_IDENT;

@@ -1,14 +1,14 @@
 import { createApp } from "vue";
 import { Component } from "@vue/runtime-dom";
-import "./style.scss";
-import App from "./App.vue";
-import router from "./routes/index";
+import "@/style.scss";
+import App from "@/App.vue";
+import router from "@/routes/index";
 import { createPinia } from "pinia";
 import piniaPersist from "pinia-plugin-persist";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
-import "./theme-dark.css";
+import "@/theme-dark.css";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import { installCommon } from "@/components/index";
 // 创建VUE

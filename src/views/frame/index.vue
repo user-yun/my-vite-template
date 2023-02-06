@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { Sunny, Moon } from "@element-plus/icons-vue";
 import { useDark, useToggle } from "@vueuse/core";
+import { defineAsyncComponent } from "@vue/runtime-dom";
 // 切换黑夜模式
 const isDark = useDark({
   valueDark: "dark",
@@ -85,15 +86,16 @@ const menuComponent = defineAsyncComponent(
 );
 // 是否开启顶部菜单配置，在env文件中进行配置
 const topMenu = import.meta.env.VITE_APP_TOP_MENU == "true";
-const router = useRouter().currentRoute.value;
 // 处理左侧菜单默认选中样式
 const leftMenuActive = computed(() => {
+  const router = useRouter().currentRoute.value;
   return (
     router.meta && router.meta.leftMenu ? router.meta.leftMenu : router.path
   ) as string;
 });
 // 处理顶部菜单默认选中样式
 const topMenuActive = computed(() => {
+  const router = useRouter().currentRoute.value;
   return (
     router.meta && router.meta.topMenu ? router.meta.topMenu : router.path
   ) as string;
