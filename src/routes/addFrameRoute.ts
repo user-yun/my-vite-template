@@ -11,61 +11,14 @@ interface TEMPLATEDEMO {
 // 模拟接口返回的数据
 const getTemplateDemo = () => {
   return new Promise<TEMPLATEDEMO[]>((resolve, reject) => {
-    const templateDemo = [
-      {
-        path: "/topMenu",
-        name: "topMenuIndex",
-        component: frameIdent,
-        children: [
-          {
-            path: "/simulation/index",
-            name: "simulationIndex",
-            component: "/src/views/business/simulation/index.vue",
-            meta: {
-              topMenu: "/topMenu",
-              // leftMenu: "/simulation/index",
-            },
-          },
-          {
-            path: "/test/index",
-            name: "testIndex",
-            component: "/src/views/business/test/index.vue",
-            meta: {
-              topMenu: "/topMenu",
-              // leftMenu: "/test/index",
-            },
-          },
-        ],
-      },
-      {
-        path: "/",
-        name: "frameIndex",
-        component: frameIdent,
-        children: [
-          {
-            path: "/template/tableDemo",
-            name: "templateTableDemo",
-            component: "/src/views/business/template/tableDemo.vue",
-            meta: {
-              topMenu: "/",
-            },
-          },
-          {
-            path: "/template/inputDemo",
-            name: "templateInputDemo",
-            component: "/src/views/business/template/inputDemo.vue",
-            meta: {
-              topMenu: "/",
-            },
-          },
-        ],
-      },
-    ];
-    setTimeout(() => {
-      // 接口请求过后注册路由，可以更改标识
-      isLoadRouter = true;
-      resolve(templateDemo);
-    }, 1000);
+    // 模拟接口返回的菜单数据
+    import("./routersData").then((res) => {
+      setTimeout(() => {
+        // 接口请求过后注册路由，可以更改标识
+        isLoadRouter = true;
+        resolve(res.default);
+      }, 1000);
+    });
   });
 };
 // 路由框架父级理由承载组件

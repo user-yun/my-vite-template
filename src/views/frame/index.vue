@@ -103,7 +103,7 @@ const topMenuActive = computed(() => {
 const allMenuListData = ref();
 const leftMenuListData = ref();
 // 模拟接口返回的菜单数据
-import("./mock").then((res) => {
+import("./MenusData").then((res) => {
   if (topMenu) {
     allMenuListData.value = res.default;
     let findMenuListData = allMenuListData.value.find((item: any) => {

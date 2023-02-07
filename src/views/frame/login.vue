@@ -2,18 +2,70 @@
   <div class="login-content">
     <div class="login-background"></div>
     <el-card class="login-form">
-      <el-form :model="loginForm" label-width="120px">
-        <el-form-item label="Activity name">
-          <el-input v-model="loginForm.name" />
+      <h1 class="login-title">{{ title }}</h1>
+      <el-form
+        ref="formRef"
+        :rules="formRules"
+        :model="loginForm"
+        label-width="80px"
+      >
+        <el-form-item label="用户名" prop="name">
+          <MyInput
+            type="EnAndNumber"
+            v-model="loginForm.name"
+            placeholder="请输入用户名"
+            :clearable="true"
+            maxlength="18"
+            prefix-icon="User"
+          ></MyInput>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <MyInput
+            type="text"
+            v-model="loginForm.password"
+            placeholder="请输入密码"
+            :clearable="true"
+            maxlength="18"
+            prefix-icon="Lock"
+          ></MyInput>
         </el-form-item>
       </el-form>
+      <el-button
+        type="primary"
+        class="login-button"
+        size="large"
+        @click="submitForm"
+      >
+        Login
+      </el-button>
     </el-card>
   </div>
 </template>
 <script setup lang="ts">
+import { required, requiredMinLength } from "@/utils/rules";
+import type { FormInstance, FormRules } from "element-plus";
+// 获取ENV配置信息
+const title = import.meta.env.VITE_APP_TITLE;
 const loginForm = ref({
   name: "",
+  password: "",
 });
+const formRef = ref<FormInstance>();
+const formRules = ref<FormRules>({
+  name: required("请输入用户名"),
+  password: requiredMinLength("请输入密码", "密码长度不得小于6位"),
+});
+const submitForm = () => {
+  if (!formRef.value) return;
+  formRef.value.validate((valid, fields) => {
+    if (valid) {
+      console.log(loginForm.value);
+      console.log(valid);
+    } else {
+      ElMessage.error("请填写完整");
+    }
+  });
+};
 </script>
 <style lang="scss" scoped>
 $mask-color: var(--el-mask-color-extra-light);
@@ -40,6 +92,13 @@ $form-width: 400px;
     width: $form-width;
     height: $form-width * 0.618;
     background: $mask-color;
+    .login-title {
+      font-size: 26px;
+      text-align: center;
+    }
+    .login-button {
+      width: 100%;
+    }
   }
 }
 </style>
