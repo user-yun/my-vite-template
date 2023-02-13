@@ -44,7 +44,9 @@
             <el-avatar>系</el-avatar>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>退出</el-dropdown-item>
+                <el-dropdown-item @click="dropdownItemClick(0)"
+                  >退出</el-dropdown-item
+                >
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -71,6 +73,8 @@
 import { Sunny, Moon } from "@element-plus/icons-vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { defineAsyncComponent } from "@vue/runtime-dom";
+import StoreIndex from "@/store/index";
+const router = useRouter();
 // 切换黑夜模式
 const isDark = useDark({
   valueDark: "dark",
@@ -124,6 +128,14 @@ import("./MenusData").then((res) => {
 const topMenuSelect = (index: string, indexPath: string[], item: any) => {
   if (item && item.route && item.route.children) {
     leftMenuListData.value = item.route.children;
+  }
+};
+// 下拉菜单点击事件
+const dropdownItemClick = (type: number) => {
+  if (type == 0) {
+    const storeIndex = StoreIndex();
+    storeIndex.$reset();
+    router.push("/login");
   }
 };
 </script>

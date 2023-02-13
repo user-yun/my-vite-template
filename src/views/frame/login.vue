@@ -44,6 +44,8 @@
 <script setup lang="ts">
 import { required, requiredMinLength } from "@/utils/rules";
 import type { FormInstance, FormRules } from "element-plus";
+import StoreIndex from "@/store/index";
+const router = useRouter();
 // 获取ENV配置信息
 const title = import.meta.env.VITE_APP_TITLE;
 const loginForm = ref({
@@ -59,8 +61,9 @@ const submitForm = () => {
   if (!formRef.value) return;
   formRef.value.validate((valid, fields) => {
     if (valid) {
-      console.log(loginForm.value);
-      console.log(valid);
+      const storeIndex = StoreIndex();
+      storeIndex.setToken("login-token");
+      router.push("/");
     } else {
       ElMessage.error("请填写完整");
     }

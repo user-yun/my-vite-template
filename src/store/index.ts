@@ -3,7 +3,7 @@ export default defineStore("index", {
   // 相当于data
   state: () => {
     return {
-      token: 0,
+      token: "",
     };
   },
   // 相当于计算属性
