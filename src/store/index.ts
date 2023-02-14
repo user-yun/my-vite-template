@@ -4,6 +4,7 @@ export default defineStore("index", {
   state: () => {
     return {
       token: "",
+      userInfo: {},
     };
   },
   // 相当于计算属性
@@ -11,10 +12,16 @@ export default defineStore("index", {
     getToken: (state) => {
       return state.token;
     },
+    getUserInfo: (state) => {
+      return state.userInfo;
+    },
   },
   actions: {
     setToken(token: any) {
       this.token = token;
+    },
+    setUserInfo(userInfo: any) {
+      this.userInfo = userInfo;
     },
   },
   persist: {

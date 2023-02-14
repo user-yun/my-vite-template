@@ -1,13 +1,15 @@
 <template>
-  <MyTable
-    :tableData="tableData"
-    height="700px"
-    @pageChange="pageChangeHandler"
-  >
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
-  </MyTable>
+  <div>
+    <MyTable
+      :tableData="tableData"
+      height="680px"
+      @pageChange="pageChangeHandler"
+    >
+      <el-table-column prop="date" label="Date" width="180" />
+      <el-table-column prop="name" label="Name" width="180" />
+      <el-table-column prop="address" label="Address" />
+    </MyTable>
+  </div>
 </template>
 <script setup lang="ts">
 const tableData = ref([

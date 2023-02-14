@@ -63,6 +63,10 @@ const submitForm = () => {
     if (valid) {
       const storeIndex = StoreIndex();
       storeIndex.setToken("login-token");
+      storeIndex.setUserInfo({
+        name: "admin",
+        id: "0",
+      });
       router.push("/");
     } else {
       ElMessage.error("请填写完整");

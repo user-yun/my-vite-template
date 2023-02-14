@@ -3,6 +3,9 @@ export default [
     path: "/topMenu",
     name: "topMenuIndex",
     component: "frameIdent",
+    meta: {
+      title: "顶部菜单",
+    },
     children: [
       {
         path: "/simulation/index",
@@ -11,6 +14,7 @@ export default [
         meta: {
           topMenu: "/topMenu",
           // leftMenu: "/simulation/index",
+          title: "模拟",
         },
       },
       {
@@ -20,6 +24,7 @@ export default [
         meta: {
           topMenu: "/topMenu",
           // leftMenu: "/test/index",
+          title: "测试",
         },
       },
     ],
@@ -28,6 +33,9 @@ export default [
     path: "/",
     name: "frameIndex",
     component: "frameIdent",
+    meta: {
+      title: "模板",
+    },
     children: [
       {
         path: "/template/tableDemo",
@@ -35,6 +43,7 @@ export default [
         component: "/src/views/business/template/tableDemo.vue",
         meta: {
           topMenu: "/",
+          title: "表格模板",
         },
       },
       {
@@ -43,6 +52,7 @@ export default [
         component: "/src/views/business/template/inputDemo.vue",
         meta: {
           topMenu: "/",
+          title: "输入框模板",
         },
       },
     ],

@@ -63,6 +63,13 @@
           </el-menu>
         </el-aside>
         <el-main class="el-card is-always-shadow">
+          <el-breadcrumb>
+            <template v-for="item in routerMatched" :key="item.path">
+              <el-breadcrumb-item v-if="item.meta && item.meta.title">
+                {{ item.meta.title }}
+              </el-breadcrumb-item>
+            </template>
+          </el-breadcrumb>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -75,6 +82,7 @@ import { useDark, useToggle } from "@vueuse/core";
 import { defineAsyncComponent } from "@vue/runtime-dom";
 import StoreIndex from "@/store/index";
 const router = useRouter();
+const routerMatched = computed(() => router.currentRoute.value.matched);
 // 切换黑夜模式
 const isDark = useDark({
   valueDark: "dark",
@@ -83,6 +91,7 @@ const isDark = useDark({
 const toggleDark = useToggle(isDark);
 const switchChange = () => {
   toggleDark();
+  // document.getElementsByTagName("html")[0].className = "light"
 };
 // 懒加载菜单组件
 const menuComponent = defineAsyncComponent(
@@ -160,7 +169,7 @@ $root-background: var(--el-bg-color-overlay);
     border-bottom: solid 1px $border-color;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     z-index: 2;
     background-color: $root-background;
     .user-logo {
@@ -169,6 +178,8 @@ $root-background: var(--el-bg-color-overlay);
       align-items: center;
       width: $left-width;
       height: $top-height;
+      box-sizing: border-box;
+      border-right: solid 1px var(--el-border-color);
       img {
         width: $left-width;
         height: $top-height;
@@ -180,8 +191,11 @@ $root-background: var(--el-bg-color-overlay);
     .top-menu {
       display: inline-flex;
       flex: 1;
+      flex-direction: column;
       .el-menu--horizontal {
         flex: 1;
+        // height: $top-height / 2;
+        border-bottom: none;
       }
     }
     .user-setting {
@@ -191,6 +205,9 @@ $root-background: var(--el-bg-color-overlay);
       align-items: center;
       width: $left-width;
       height: $top-height;
+      // box-sizing: border-box;
+      // border-bottom: solid 1px var(--el-border-color);
+      border-bottom: none;
     }
   }
   .el-aside {
@@ -229,6 +246,10 @@ $root-background: var(--el-bg-color-overlay);
     min-height: calc(100vh - $top-height - 40px);
     // position: relative;
     // z-index: 1;
+    .el-breadcrumb {
+      margin-bottom: 20px;
+      // border: 1px solid var(--el-border-color-light);
+    }
   }
 }
 </style>

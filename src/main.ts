@@ -8,6 +8,7 @@ import piniaPersist from "pinia-plugin-persist";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+import "@/theme-light.css";
 import "@/theme-dark.css";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import { installCommon } from "@/components/index";
