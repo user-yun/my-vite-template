@@ -63,7 +63,7 @@
           </el-menu>
         </el-aside>
         <el-main class="el-card is-always-shadow">
-          <el-breadcrumb>
+          <el-breadcrumb v-if="breadcrumb">
             <template v-for="item in routerMatched" :key="item.path">
               <el-breadcrumb-item v-if="item.meta && item.meta.title">
                 {{ item.meta.title }}
@@ -99,6 +99,7 @@ const menuComponent = defineAsyncComponent(
 );
 // 是否开启顶部菜单配置，在env文件中进行配置
 const topMenu = import.meta.env.VITE_APP_TOP_MENU == "true";
+const breadcrumb = import.meta.env.VITE_APP_BREADCRUMB == "true";
 // 处理左侧菜单默认选中样式
 const leftMenuActive = computed(() => {
   const router = useRouter().currentRoute.value;

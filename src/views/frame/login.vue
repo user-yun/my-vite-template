@@ -9,14 +9,15 @@
         :model="loginForm"
         label-width="80px"
       >
-        <el-form-item label="用户名" prop="name">
+        <el-form-item label="用户名" prop="username">
           <MyInput
             type="EnAndNumber"
-            v-model="loginForm.name"
+            v-model="loginForm.username"
             placeholder="请输入用户名"
             :clearable="true"
             maxlength="18"
             prefix-icon="User"
+            @keyup.enter="submitForm"
           ></MyInput>
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -27,6 +28,7 @@
             :clearable="true"
             maxlength="18"
             prefix-icon="Lock"
+            @keyup.enter="submitForm"
           ></MyInput>
         </el-form-item>
       </el-form>
@@ -42,32 +44,32 @@
   </div>
 </template>
 <script setup lang="ts">
-import { required, requiredMinLength } from "@/utils/rules";
+import rules from "@/utils/rules";
 import type { FormInstance, FormRules } from "element-plus";
 import StoreIndex from "@/store/index";
+import { adminapiV1SiteLogin } from "@/api/index";
 const router = useRouter();
 // 获取ENV配置信息
 const title = import.meta.env.VITE_APP_TITLE;
 const loginForm = ref({
-  name: "",
+  username: "",
   password: "",
 });
 const formRef = ref<FormInstance>();
 const formRules = ref<FormRules>({
-  name: required("请输入用户名"),
-  password: requiredMinLength("请输入密码", "密码长度不得小于6位"),
+  username: rules.required("请输入用户名"),
+  password: rules.requiredMinLength("请输入密码", "密码长度不得小于6位"),
 });
 const submitForm = () => {
   if (!formRef.value) return;
   formRef.value.validate((valid, fields) => {
     if (valid) {
-      const storeIndex = StoreIndex();
-      storeIndex.setToken("login-token");
-      storeIndex.setUserInfo({
-        name: "admin",
-        id: "0",
+      adminapiV1SiteLogin(loginForm.value).then((data) => {
+        const storeIndex = StoreIndex();
+        storeIndex.setToken(data.access_token);
+        storeIndex.setUserInfo(data.employee);
+        router.push("/");
       });
-      router.push("/");
     } else {
       ElMessage.error("请填写完整");
     }

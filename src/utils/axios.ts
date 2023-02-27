@@ -1,4 +1,7 @@
+//-----------------请求方法封装-----------------//
 import axios, { AxiosRequestConfig } from "axios";
+import test from "@/utils/test";
+import StoreIndex from "@/store/index";
 // 创建axios实例
 const request = axios.create({
   baseURL: "", // 所有的请求地址前缀部分
@@ -16,10 +19,11 @@ const request = axios.create({
 request.interceptors.request.use(
   (config) => {
     // 如果你要去localStor获取token
-    // let token = localStorage.getItem("x-auth-token");
-    // if (token) {
-    //     config.headers = {"x-auth-token": token}
-    // }
+    const storeIndex = StoreIndex();
+    const token = storeIndex.getToken;
+    if (token) {
+      config.headers["X-Api-Key"] = token;
+    }
     return config;
   },
   (error) => {
@@ -32,7 +36,23 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response) => {
     // 对响应数据做点什么
-    return response.data;
+    const code = import.meta.env.VITE_APP_AXIOS_SUCCESS_CODE;
+    const message = import.meta.env.VITE_APP_AXIOS_ERROR_MESSAGE == "true";
+    // 如果类型是下载文件类型
+    if (response.config.responseType == "blob") {
+      return response.data;
+    } else if (
+      // 否则就是正常请求，判断code是否正确
+      String(response.data.code) == String(code) &&
+      !test.isEmpty(response.data.data)
+    ) {
+      return response.data.data;
+    } else {
+      if (message) {
+        ElMessage.error(response.data.message);
+      }
+      return Promise.reject(response.data);
+    }
   },
   (error) => {
     // 对响应错误做点什么
@@ -40,19 +60,39 @@ request.interceptors.response.use(
   }
 );
 
-const get = (url: string, params: any, config: AxiosRequestConfig) => {
+const get = <T>(
+  url: string,
+  params?: any,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   return request.get(url, { params, ...config });
 };
-const put = (url: string, params: any, config: AxiosRequestConfig) => {
+const put = <T>(
+  url: string,
+  params?: any,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   return request.put(url, params, config);
 };
-const post = (url: string, params: any, config: AxiosRequestConfig) => {
+const post = <T>(
+  url: string,
+  params?: any,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   return request.post(url, params, config);
 };
-const dele = (url: string, params: any, config: AxiosRequestConfig) => {
+const dele = <T>(
+  url: string,
+  params?: any,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   return request.delete(url, { params, ...config });
 };
-const getBlob = (url: string, params: any, config: AxiosRequestConfig) => {
+const getBlob = <T>(
+  url: string,
+  params?: any,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   return request.get(url, { params, ...config, responseType: "blob" });
 };
 

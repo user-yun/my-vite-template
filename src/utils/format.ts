@@ -1,3 +1,4 @@
+//-----------------数据格式化方法封装-----------------//
 // 获取整数，适合数字
 function getDigits(value: any) {
   return value.replace(/[^\d]/g, ""); //清除"数字"以外的字符

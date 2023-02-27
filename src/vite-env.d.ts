@@ -5,3 +5,7 @@ declare global {
   const ElMessage: typeof import("element-plus")["ElMessage"];
   const ElLoading: typeof import("element-plus")["ElLoading"];
 }
+interface Navigator {
+  msSaveOrOpenBlob: (blob: Blob, fileName: string) => void;
+  browserLanguage: string;
+}
