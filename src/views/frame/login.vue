@@ -92,6 +92,17 @@ $form-width: 400px;
     height: 100%;
     background: linear-gradient(45deg, #ff359b, #fffd87, #00d2ff);
     filter: blur(200px);
+    background-size: 200% 200%;
+    background-position: 0 0;
+    animation: gradient-move 5s infinite linear alternate;
+    @keyframes gradient-move {
+      0% {
+        background-position: 0% 0%;
+      }
+      100% {
+        background-position: 100% 100%;
+      }
+    }
   }
   .login-form {
     position: absolute;

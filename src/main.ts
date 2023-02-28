@@ -12,12 +12,14 @@ import "@/theme-light.css";
 import "@/theme-dark.css";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import { installCommon } from "@/components/index";
+import { useTitle } from "@vueuse/core";
 // 创建VUE
 const app = createApp(App);
 // 获取ENV配置信息
 const ENV = import.meta.env;
 // 设置标题
-document.title = ENV.VITE_APP_TITLE;
+useTitle(ENV.VITE_APP_TITLE)
+// document.title = ENV.VITE_APP_TITLE;
 // 加载所有emelent图标
 for (const [key, value] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, value as Component);

@@ -1,4 +1,5 @@
 :root {
+  width: 100%;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -9,18 +10,19 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --el-header-height: 60px;
+  --el-aside-width: 200px;
 }
 $root-color: var(--el-text-color-regular);
 $root-background: var(--el-bg-color-page);
 body {
   margin: 0;
-  display: flex;
   place-items: center;
-  min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
   color: $root-color;
   background-color: $root-background;
+  width: 100%;
   &::-webkit-scrollbar {
     width: 16px;
   }
@@ -30,6 +32,15 @@ body {
   &::-webkit-scrollbar-thumb {
     border-radius: 8px;
     background-color: rgba(203, 205, 211, 0.7);
+  }
+  #app {
+    width: 100%;
+  }
+}
+.in-use {
+  color: var(--el-color-primary) !important;
+  :deep .is-icon {
+    color: var(--el-color-primary) !important;
   }
 }
 // html.light body {
