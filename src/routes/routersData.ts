@@ -30,7 +30,7 @@ export default [
     ],
   },
   {
-    path: "/",
+    path: "/frameIndex",
     name: "frameIndex",
     component: "frameIdent",
     meta: {
@@ -42,7 +42,7 @@ export default [
         name: "templateTableDemo",
         component: "/src/views/business/template/tableDemo.vue",
         meta: {
-          topMenu: "/",
+          topMenu: "/frameIndex",
           title: "表格模板",
         },
       },
@@ -51,7 +51,7 @@ export default [
         name: "templateInputDemo",
         component: "/src/views/business/template/inputDemo.vue",
         meta: {
-          topMenu: "/",
+          topMenu: "/frameIndex",
           title: "输入框模板",
         },
       },

@@ -24,14 +24,14 @@ body {
   background-color: $root-background;
   width: 100%;
   &::-webkit-scrollbar {
-    width: 16px;
+    width: 12px;
   }
   &::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgb(255, 255, 255);
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 8px;
-    background-color: rgba(203, 205, 211, 0.7);
+    background-color: var(--el-border-color);
   }
   #app {
     width: 100%;
@@ -41,6 +41,12 @@ body {
   color: var(--el-color-primary) !important;
   :deep .is-icon {
     color: var(--el-color-primary) !important;
+  }
+}
+.el-icon {
+  cursor: pointer;
+  &:hover {
+    color: var(--el-color-primary);
   }
 }
 // html.light body {

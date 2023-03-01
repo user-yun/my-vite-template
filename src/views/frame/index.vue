@@ -16,8 +16,8 @@
           <menuComponent :menuData="leftMenuListData"></menuComponent>
         </el-menu>
       </el-aside>
-      <el-container class="el-container-right" id="elContainerRight">
-        <el-header>
+      <el-container class="el-container-right">
+        <el-header ref="elHeaderRef">
           <div class="top-menu">
             <el-menu
               v-if="topMenu"
@@ -82,7 +82,7 @@
             </template>
           </el-breadcrumb>
         </el-header>
-        <el-main class="el-card is-always-shadow">
+        <el-main class="el-card is-always-shadow" id="elMainId">
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -91,13 +91,22 @@
 </template>
 <script setup lang="ts">
 import { Sunny, Moon } from "@element-plus/icons-vue";
-import { useDark, useToggle } from "@vueuse/core";
+import {
+  useDark,
+  useToggle,
+  useFullscreen,
+  useElementVisibility,
+} from "@vueuse/core";
 import { defineAsyncComponent } from "@vue/runtime-dom";
 import StoreIndex from "@/store/index";
-import { useFullscreen } from "@vueuse/core";
-const { toggle: toggleFullscreen, isFullscreen } = useFullscreen();
+// 路由
 const router = useRouter();
+// 计算属性路由
 const routerMatched = computed(() => router.currentRoute.value.matched);
+// 懒加载菜单组件
+const menuComponent = defineAsyncComponent(
+  () => import("@/views/frame/menuComponent.vue")
+);
 // 切换黑夜模式
 const isDark = useDark({
   valueDark: "dark",
@@ -108,10 +117,6 @@ const switchChange = () => {
   toggleDark();
   // document.getElementsByTagName("html")[0].className = "light"
 };
-// 懒加载菜单组件
-const menuComponent = defineAsyncComponent(
-  () => import("@/views/frame/menuComponent.vue")
-);
 // 是否开启顶部菜单配置，在env文件中进行配置
 const topMenu = import.meta.env.VITE_APP_TOP_MENU == "true";
 const breadcrumb = import.meta.env.VITE_APP_BREADCRUMB == "true";
@@ -129,7 +134,9 @@ const topMenuActive = computed(() => {
     router.meta && router.meta.topMenu ? router.meta.topMenu : router.path
   ) as string;
 });
+// 所有菜单展示数据，顶部菜单时需要
 const allMenuListData = ref();
+// 左侧菜单展示数据，只有左侧菜单需要
 const leftMenuListData = ref();
 // 模拟接口返回的菜单数据
 import("./MenusData").then((res) => {
@@ -163,8 +170,8 @@ const dropdownItemClick = (type: number) => {
     router.push("/login");
   }
 };
+// 菜单是否折叠处理
 const isCollapse = ref();
-const elContainerRight = ref();
 const isCollapseHandler = () => {
   isCollapse.value = !isCollapse.value;
   if (isCollapse.value) {
@@ -173,6 +180,11 @@ const isCollapseHandler = () => {
     document.documentElement.style.setProperty("--el-aside-width", "200px");
   }
 };
+// 全屏事件处理
+const { toggle: toggleFullscreen, isFullscreen } = useFullscreen();
+// 顶部是否状态显示处理
+const elHeaderRef = ref();
+const elHeaderRefIsVisible = useElementVisibility(elHeaderRef);
 </script>
 <style lang="scss" scoped>
 $el-header-height: var(--el-header-height);
@@ -254,13 +266,9 @@ $transition: all 0.2s;
           border-bottom: none;
         }
         .fold-expand {
+          margin: 18px 0 0 20px;
           font-size: 24px;
           display: inline-block;
-          margin: 18px 0 0 20px;
-          cursor: pointer;
-          &:hover {
-            color: var(--el-color-primary);
-          }
         }
       }
       .user-setting {
@@ -290,6 +298,7 @@ $transition: all 0.2s;
     .el-main {
       box-sizing: border-box;
       margin: 20px;
+      min-height: 790px;
     }
   }
 }

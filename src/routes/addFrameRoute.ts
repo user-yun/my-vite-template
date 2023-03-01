@@ -31,10 +31,11 @@ const frameIdent = import.meta.env.VITE_APP_FRAME_IDENT;
 // 处理路由动态注册
 const handlerRouters = (
   router: Router,
-  routers: TEMPLATEDEMO[]
+  routers: TEMPLATEDEMO[],
+  path = ""
 ): RouteRecordRaw[] => {
   let routeRecordRaws: RouteRecordRaw[] = [];
-  routers.forEach((e) => {
+  routers.forEach((e, index) => {
     let component: RouteComponent;
     if (e.component == frameIdent) {
       component = frameIdentComponent;
@@ -56,6 +57,10 @@ const handlerRouters = (
       // 重新设置父项的重定向，防止跳转父项路由时，没有页面显示
       routeRecordRaw.redirect = routeRecordRaw.children[0].path;
     }
+    // 设置别名，解决动态路由随机分配权限第一页访问问题
+    if (index == 0 && path != "") {
+      routeRecordRaw.alias = path;
+    }
     routeRecordRaws.push(routeRecordRaw);
     // 处理完时进行注册，原本打算在调用处循环加载，避免多个路由以及子路由重复注册，调试数据发现，路由本身就已经重复注册了
     router.addRoute(routeRecordRaw);
@@ -70,7 +75,7 @@ export default function (router: Router) {
     if (!isLoadRouter) {
       // 模拟异步获取数据
       const templateDemo = await getTemplateDemo();
-      handlerRouters(router, templateDemo);
+      handlerRouters(router, templateDemo, "/");
       // 原本打算在此处循环加载动态路由
       // const addRouter = handlerRouters(router, templateDemo);
       // for
