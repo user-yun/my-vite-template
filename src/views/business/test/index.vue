@@ -1,22 +1,23 @@
 <template>
+  <p>接口已经无法使用</p>
   <div class="card">
-    <el-button type="primary" @click="getTest"> get请求测试 </el-button>
+    <el-button type="primary" @click="getTest" disabled> get请求测试 </el-button>
     <pre>{{ getTestData }}</pre>
   </div>
   <div class="card">
-    <el-button type="primary" @click="postTest"> post请求测试 </el-button>
+    <el-button type="primary" @click="postTest" disabled> post请求测试 </el-button>
     <pre>{{ postTestData }}</pre>
   </div>
   <div class="card">
-    <el-button type="primary" @click="deleTest"> dele请求测试 </el-button>
+    <el-button type="primary" @click="deleTest" disabled> dele请求测试 </el-button>
     <pre>{{ deleTestData }}</pre>
   </div>
   <div class="card">
-    <el-button type="primary" @click="putTest"> put请求测试 </el-button>
+    <el-button type="primary" @click="putTest" disabled> put请求测试 </el-button>
     <pre>{{ putTestData }}</pre>
   </div>
   <div class="card">
-    <el-button type="primary" @click="getBlobTest"> getBlob请求测试 </el-button>
+    <el-button type="primary" @click="getBlobTest" disabled> getBlob请求测试 </el-button>
     <pre>{{ getBlobTestData }}</pre>
   </div>
 </template>
