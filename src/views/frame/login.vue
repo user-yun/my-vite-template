@@ -3,17 +3,41 @@
     <div class="login-background"></div>
     <el-card class="login-form">
       <h1 class="login-title">{{ title }}</h1>
-      <el-form ref="formRef" :rules="formRules" :model="loginForm" label-width="80px">
+      <el-form
+        ref="formRef"
+        :rules="formRules"
+        :model="loginForm"
+        label-width="80px"
+      >
         <el-form-item label="用户名" prop="username">
-          <MyInput type="EnAndNumber" v-model="loginForm.username" placeholder="请输入用户名" :clearable="true" maxlength="18"
-            prefix-icon="User" @keyup.enter="submitForm"></MyInput>
+          <MyInput
+            type="EnAndNumber"
+            v-model="loginForm.username"
+            placeholder="请输入用户名"
+            :clearable="true"
+            maxlength="18"
+            prefix-icon="User"
+            @keyup.enter="submitForm"
+          ></MyInput>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <MyInput type="text" v-model="loginForm.password" placeholder="请输入密码" :clearable="true" maxlength="18"
-            prefix-icon="Lock" @keyup.enter="submitForm"></MyInput>
+          <MyInput
+            type="text"
+            v-model="loginForm.password"
+            placeholder="请输入密码"
+            :clearable="true"
+            maxlength="18"
+            prefix-icon="Lock"
+            @keyup.enter="submitForm"
+          ></MyInput>
         </el-form-item>
       </el-form>
-      <el-button type="primary" class="login-button" size="large" @click="submitForm">
+      <el-button
+        type="primary"
+        class="login-button"
+        size="large"
+        @click="submitForm"
+      >
         Login
       </el-button>
     </el-card>
@@ -43,18 +67,18 @@ const submitForm = () => {
       let data = {
         access_token: "d_w_aaLg2aHFPnI_ZfV5lsWm4KBdjcpt_1681456605",
         employee: {
-          "username": "yunfei",
-          "id": 45,
-          "role_id": 1,
-          "open_unusual_tip": 1
-        }
-      }
-      adminapiV1SiteLogin(loginForm.value).then((data) => {
-        const storeIndex = StoreIndex();
-        storeIndex.setToken(data.access_token);
-        storeIndex.setUserInfo(data.employee);
-        router.push("/");
-      });
+          username: "yunfei",
+          id: 45,
+          role_id: 1,
+          open_unusual_tip: 1,
+        },
+      };
+      // adminapiV1SiteLogin(loginForm.value).then((data) => {
+      const storeIndex = StoreIndex();
+      storeIndex.setToken(data.access_token);
+      storeIndex.setUserInfo(data.employee);
+      router.push("/");
+      // });
     } else {
       ElMessage.error("请填写完整");
     }
