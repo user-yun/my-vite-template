@@ -24,46 +24,56 @@ import commonjs from "rollup-plugin-commonjs";
 const pathSrc = path.resolve(__dirname, "src");
 
 const PluginImportToCDNModules = [
-  // {
-  //   name: "vue",
-  //   var: "Vue",
-  //   path: "https://unpkg.com/vue@3.2.45/dist/vue.global.js",
-  // },
-  // {
-  //   name: "vue-demi",
-  //   var: "VueDemi",
-  //   path: "https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js",
-  // },
-  // {
-  //   name: "pinia",
-  //   var: "Pinia",
-  //   path: "https://unpkg.com/pinia@2.0.29/dist/pinia.iife.js",
-  // },
+  {
+    name: "vue",
+    var: "Vue",
+    path: "https://unpkg.com/vue@3.2.45/dist/vue.global.js",
+  },
+  {
+    name: "vue-demi",
+    var: "VueDemi",
+    path: "https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js",
+  },
+  {
+    name: "@vueuse/core",
+    var: "VueUse",
+    path: "https://unpkg.com/@vueuse/core@10.1.2/index.iife.min.js",
+  },
+  {
+    name: "pinia",
+    var: "Pinia",
+    path: "https://unpkg.com/pinia@2.0.29/dist/pinia.iife.js",
+  },
   {
     name: "pinia-plugin-persist",
     var: "piniaPersist",
     path: "https://unpkg.com/pinia-plugin-persist@1.0.0/dist/pinia-persist.umd.js",
   },
-  // {
-  //   name: "vue-router",
-  //   var: "VueRouter",
-  //   path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
-  // },
-  // {
-  //   name: "element-plus",
-  //   var: "ElementPlus",
-  //   path: "https://unpkg.com/element-plus@2.2.28/dist/index.full.js",
-  //   css: "https://unpkg.com/element-plus@2.2.28/dist/index.css",
-  // },
-  // {
-  //   name: "@element-plus/icons-vue",
-  //   var: "ElementPlusIconsVue",
-  //   path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.min.js",
-  // },
+  {
+    name: "vue-router",
+    var: "VueRouter",
+    path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
+  },
+  {
+    name: "element-plus",
+    var: "ElementPlus",
+    path: "https://unpkg.com/element-plus@2.2.28/dist/index.full.js",
+    css: "https://unpkg.com/element-plus@2.2.28/dist/index.css",
+  },
+  {
+    name: "@element-plus/icons-vue",
+    var: "ElementPlusIconsVue",
+    path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.min.js",
+  },
   {
     name: "axios",
     var: "axios",
     path: "https://unpkg.com/axios@1.2.6/dist/axios.min.js",
+  },
+  {
+    name: "three",
+    var: "three",
+    path: "https://unpkg.com/three@0.152.2/build/three.min.js",
   },
 ];
 

@@ -1,9 +1,10 @@
 /// <reference types="vite/client" />
 declare const ElementPlusIconsVue;
 declare module "element-plus/dist/locale/zh-cn.mjs";
+declare module "three";
+declare module "three/examples/jsm/loaders/FontLoader";
+declare module "three/examples/jsm/geometries/TextGeometry";
 declare global {
-  const ElMessage: typeof import("element-plus")["ElMessage"];
-  const ElLoading: typeof import("element-plus")["ElLoading"];
 }
 interface Navigator {
   msSaveOrOpenBlob: (blob: Blob, fileName: string) => void;

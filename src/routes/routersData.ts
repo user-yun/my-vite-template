@@ -57,4 +57,23 @@ export default [
       },
     ],
   },
+  {
+    path: "/threeIndex",
+    name: "threeIndex",
+    component: "frameIdent",
+    meta: {
+      title: "Three",
+    },
+    children: [
+      {
+        path: "/three/index",
+        name: "threeIndex",
+        component: "/src/views/business/three/index.vue",
+        meta: {
+          topMenu: "/threeIndex",
+          title: "Three模板",
+        },
+      }
+    ],
+  },
 ];

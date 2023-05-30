@@ -51,4 +51,24 @@ export default [
       },
     ],
   },
+  {
+    path: "/threeIndex",
+    title: "Three",
+    icon: "Document",
+    children: [
+      {
+        path: "Three",
+        title: "Three",
+        icon: "Document",
+        children: [
+          {
+            path: "/three/index",
+            title: "Three模板示例",
+            icon: "Document",
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
 ];
