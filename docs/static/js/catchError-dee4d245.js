@@ -1,0 +1,1 @@
+import{_ as c}from"./index-198740e6.js";import"./@vue-1e819d0c.js";const o={};function t(_,r){const e=Vue.resolveComponent("el-empty");return Vue.openBlock(),Vue.createBlock(e,{description:"页面在漫游中迷失了..."})}const p=c(o,[["render",t],["__scopeId","data-v-7f9055cf"]]);export{p as default};
