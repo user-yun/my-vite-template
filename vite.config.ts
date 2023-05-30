@@ -34,11 +34,11 @@ const PluginImportToCDNModules = [
     var: "VueDemi",
     path: "https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js",
   },
-  {
-    name: "@vueuse/core",
-    var: "VueUse",
-    path: "https://unpkg.com/@vueuse/core@10.1.2/index.iife.min.js",
-  },
+  // {
+  //   name: "@vueuse/core",
+  //   var: "VueUse",
+  //   path: "https://unpkg.com/@vueuse/core@10.1.2/index.iife.js",
+  // },
   {
     name: "pinia",
     var: "Pinia",
@@ -63,17 +63,17 @@ const PluginImportToCDNModules = [
   {
     name: "@element-plus/icons-vue",
     var: "ElementPlusIconsVue",
-    path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.min.js",
+    path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.js",
   },
   {
     name: "axios",
     var: "axios",
-    path: "https://unpkg.com/axios@1.2.6/dist/axios.min.js",
+    path: "https://unpkg.com/axios@1.2.6/dist/axios.js",
   },
   {
     name: "three",
     var: "three",
-    path: "https://unpkg.com/three@0.152.2/build/three.min.js",
+    path: "https://unpkg.com/three@0.152.2/build/three.js",
   },
 ];
 

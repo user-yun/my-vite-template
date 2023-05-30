@@ -1,1 +1,0 @@
-import{_ as e}from"./index-eb096ca6.js";import"./@vue-1e819d0c.js";import"./@vueuse-676aaa97.js";const c={},t={class:"card"};function o(r,n){return Vue.openBlock(),Vue.createElementBlock("div",t,"模拟")}const i=e(c,[["render",o]]);export{i as default};
