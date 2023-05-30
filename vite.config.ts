@@ -1,8 +1,10 @@
 import path from "path";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
-// 打包时使用CDN形势引入其他插件
-import { Plugin as PluginImportToCDN } from "vite-plugin-cdn-import";
+// 打包时使用CDN形势引入其他插件 方式一 无法使用
+// import { Plugin as PluginImportToCDN } from "vite-plugin-cdn-import";
+// 自动添加CDN 自动生成标签 方式二 无法使用
+// import { createHtmlPlugin } from "vite-plugin-html";
 // 自动导入element-plus-icon
 // import Icons from "unplugin-icons/vite";
 // import IconsResolver from "unplugin-icons/resolver";
@@ -17,90 +19,87 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 // vite-plugin-compression:使用 gzip 或者 brotli 来压缩资源.
 import viteCompression from "vite-plugin-compression";
 // 配置全局变量导出
-import externalGlobals from "rollup-plugin-external-globals";
+// import externalGlobals from "rollup-plugin-external-globals";
 // 引入打包工具
 import commonjs from "rollup-plugin-commonjs";
 
 const pathSrc = path.resolve(__dirname, "src");
 
-const PluginImportToCDNModules = [
-  {
-    name: "vue",
-    var: "Vue",
-    path: "https://unpkg.com/vue@3.2.45/dist/vue.global.js",
-  },
-  {
-    name: "vue-demi",
-    var: "VueDemi",
-    path: "https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js",
-  },
-  // {
-  //   name: "@vueuse/core",
-  //   var: "VueUse",
-  //   path: "https://unpkg.com/@vueuse/core@10.1.2/index.iife.js",
-  // },
-  {
-    name: "vue-router",
-    var: "VueRouter",
-    path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
-  },
-  {
-    name: "pinia",
-    var: "Pinia",
-    path: "https://unpkg.com/pinia@2.0.29/dist/pinia.iife.js",
-  },
-  {
-    name: "pinia-plugin-persist",
-    var: "piniaPersist",
-    path: "https://unpkg.com/pinia-plugin-persist@1.0.0/dist/pinia-persist.umd.js",
-  },
-  {
-    name: "element-plus",
-    var: "ElementPlus",
-    path: "https://unpkg.com/element-plus@2.2.28/dist/index.full.js",
-    css: "https://unpkg.com/element-plus@2.2.28/dist/index.css",
-  },
-  {
-    name: "@element-plus/icons-vue",
-    var: "ElementPlusIconsVue",
-    path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.js",
-  },
-  {
-    name: "axios",
-    var: "axios",
-    path: "https://unpkg.com/axios@1.2.6/dist/axios.js",
-  },
-  {
-    name: "three",
-    var: "three",
-    path: "https://unpkg.com/three@0.152.2/build/three.js",
-  },
-];
+// const PluginImportToCDNModules = [
+// {
+//   name: "vue",
+//   var: "Vue",
+//   path: "https://unpkg.com/vue@3.2.45/dist/vue.global.js",
+// },
+// {
+//   name: "vue-demi",
+//   var: "VueDemi",
+//   path: "https://unpkg.com/vue-demi@0.13.11/lib/index.iife.js",
+// },
+// {
+//   name: "vue-router",
+//   var: "VueRouter",
+//   path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
+// },
+// {
+//   name: "pinia",
+//   var: "Pinia",
+//   path: "https://unpkg.com/pinia@2.0.29/dist/pinia.iife.js",
+// },
+// {
+//   name: "pinia-plugin-persist",
+//   var: "piniaPersist",
+//   path: "https://unpkg.com/pinia-plugin-persist@1.0.0/dist/pinia-persist.umd.js",
+// },
+// {
+//   name: "element-plus",
+//   var: "ElementPlus",
+//   path: "https://unpkg.com/element-plus@2.2.28/dist/index.full.js",
+//   css: "https://unpkg.com/element-plus@2.2.28/dist/index.css",
+// },
+// {
+//   name: "@element-plus/icons-vue",
+//   var: "ElementPlusIconsVue",
+//   path: "https://unpkg.com/@element-plus/icons-vue@2.0.10/dist/index.iife.js",
+// },
+// {
+//   name: "axios",
+//   var: "axios",
+//   path: "https://unpkg.com/axios@1.2.6/dist/axios.js",
+// },
+// {
+//   name: "three",
+//   var: "three",
+//   path: "https://unpkg.com/three@0.152.2/build/three.js",
+// },
+// ];
 
 export default defineConfig(async ({ command, mode }) => {
   // 根据当前工作目录中的 `mode` 加载 .env 文件
   // 设置第三个参数为 '' 来加载所有环境变量，而不管是否有 `VITE_` 前缀。
   const env = loadEnv(mode, process.cwd(), "VITE_");
+  const isProduction = env.VITE_USER_NODE_ENV == "production";
+  const isBuild = env.VITE_USER_NODE_BUILD == "true";
   console.log(env);
-  console.log(
-    PluginImportToCDNModules.reduce(
-      (obj, item) => (obj.push(item.name), obj),
-      []
-    )
-  );
-  console.log(
-    PluginImportToCDNModules.reduce(
-      (obj, item) => ((obj[item.name] = item.var), obj),
-      {}
-    )
-  );
+  // console.log(
+  //   PluginImportToCDNModules.reduce(
+  //     (obj, item) => (obj.push(item.name), obj),
+  //     []
+  //   )
+  // );
+  // console.log(
+  //   PluginImportToCDNModules.reduce(
+  //     (obj, item) => ((obj[item.name] = item.var), obj),
+  //     {}
+  //   )
+  // );
   return {
-    base: "./",
+    base: env.VITE_APP_BASE_URL,
     plugins: [
       vue(),
       AutoImport({
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-        imports: ["vue", "pinia", "vue-router"],
+        imports: ["vue", "@vueuse/core", "pinia", "vue-router"],
         dts: path.resolve(pathSrc, "auto-imports.d.ts"),
         resolvers: [
           // 自动导入图标组件
@@ -124,13 +123,32 @@ export default defineConfig(async ({ command, mode }) => {
       // }),
       // * vite 可以使用 jsx/tsx 语法
       vueJsx(),
-      // 打包使用CDN
-      PluginImportToCDN({
-        modules: PluginImportToCDNModules.reduce(
-          (obj, item) => (obj.push(item), obj),
-          []
-        ),
-      }),
+      // 打包使用CDN 方式一
+      // PluginImportToCDN({
+      //   modules: PluginImportToCDNModules.reduce(
+      //     (obj, item) => (obj.push(item), obj),
+      //     []
+      //   ),
+      // }),
+      // 自动添加CDN 自动生成标签 方式二
+      // createHtmlPlugin({
+      //   inject: {
+      //     data: {
+      //       cdnCss: isBuild
+      //         ? PluginImportToCDNModules.reduce(
+      //             (obj, item) => (item.css && obj.push(item.css), obj),
+      //             []
+      //           )
+      //         : [],
+      //       cdnJs: isBuild
+      //         ? PluginImportToCDNModules.reduce(
+      //             (obj, item) => (item.path && obj.push(item.path), obj),
+      //             []
+      //           )
+      //         : [],
+      //     },
+      //   },
+      // }),
       viteCompression({
         verbose: true, //是否在控制台输出压缩结果
         disable: false, //是否禁用,相当于开关在这里
@@ -177,31 +195,31 @@ export default defineConfig(async ({ command, mode }) => {
       terserOptions: {
         compress: {
           booleans_as_integers: true,
-          drop_console: env.VITE_USER_NODE_ENV == "production",
+          drop_console: isProduction,
         },
       },
       rollupOptions: {
         // 告诉打包工具 在external配置的 都是外部依赖项  不需要打包
-        external: PluginImportToCDNModules.reduce(
-          (obj, item) => (obj.push(item.name), obj),
-          []
-        ),
+        // external: PluginImportToCDNModules.reduce(
+        //   (obj, item) => (obj.push(item.name), obj),
+        //   []
+        // ),
         plugins: [
           commonjs(),
           // "在项目中引入的变量名称" ："CDN包导出的名称，一般在CDN包中都是可见的"
-          externalGlobals(
-            PluginImportToCDNModules.reduce(
-              (obj, item) => ((obj[item.name] = item.var), obj),
-              {}
-            )
-          ),
+          // externalGlobals(
+          //   PluginImportToCDNModules.reduce(
+          //     (obj, item) => ((obj[item.name] = item.var), obj),
+          //     {}
+          //   )
+          // ),
         ],
         output: {
           format: "es",
-          globals: PluginImportToCDNModules.reduce(
-            (obj, item) => ((obj[item.name] = item.var), obj),
-            {}
-          ),
+          // globals: PluginImportToCDNModules.reduce(
+          //   (obj, item) => ((obj[item.name] = item.var), obj),
+          //   {}
+          // ),
           //静态资源分类打包
           chunkFileNames: "static/js/[name]-[hash].js",
           entryFileNames: "static/js/[name]-[hash].js",

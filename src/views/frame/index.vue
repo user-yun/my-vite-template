@@ -91,12 +91,12 @@
 </template>
 <script setup lang="ts">
 import { Sunny, Moon } from "@element-plus/icons-vue";
-import {
-  useDark,
-  useToggle,
-  useFullscreen,
-  useElementVisibility,
-} from "@vueuse/core";
+// import {
+//   useDark,
+//   useToggle,
+//   useFullscreen,
+//   useElementVisibility,
+// } from "@vueuse/core";
 import { defineAsyncComponent } from "@vue/runtime-dom";
 import StoreIndex from "@/store/index";
 // 路由

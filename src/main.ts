@@ -12,7 +12,7 @@ import "@/theme-light.css";
 import "@/theme-dark.css";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import { installCommon } from "@/components/index";
-import { useTitle } from "@vueuse/core";
+// import { useTitle } from "@vueuse/core";
 // 创建VUE
 const app = createApp(App);
 // 获取ENV配置信息

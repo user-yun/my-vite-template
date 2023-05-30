@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 declare const ElementPlusIconsVue;
+declare module "@/App.vue";
 declare module "element-plus/dist/locale/zh-cn.mjs";
 declare module "three";
 declare module "three/examples/jsm/loaders/FontLoader";
