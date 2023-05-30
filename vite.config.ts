@@ -95,6 +95,7 @@ export default defineConfig(async ({ command, mode }) => {
     )
   );
   return {
+    base: "./",
     plugins: [
       vue(),
       AutoImport({

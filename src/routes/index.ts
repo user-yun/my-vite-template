@@ -27,7 +27,7 @@ const routes = [
 ];
 // 路由
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
   routes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
