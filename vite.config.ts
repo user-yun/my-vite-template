@@ -40,6 +40,11 @@ const PluginImportToCDNModules = [
   //   path: "https://unpkg.com/@vueuse/core@10.1.2/index.iife.js",
   // },
   {
+    name: "vue-router",
+    var: "VueRouter",
+    path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
+  },
+  {
     name: "pinia",
     var: "Pinia",
     path: "https://unpkg.com/pinia@2.0.29/dist/pinia.iife.js",
@@ -48,11 +53,6 @@ const PluginImportToCDNModules = [
     name: "pinia-plugin-persist",
     var: "piniaPersist",
     path: "https://unpkg.com/pinia-plugin-persist@1.0.0/dist/pinia-persist.umd.js",
-  },
-  {
-    name: "vue-router",
-    var: "VueRouter",
-    path: "https://unpkg.com/vue-router@4.1.6/dist/vue-router.global.js",
   },
   {
     name: "element-plus",
