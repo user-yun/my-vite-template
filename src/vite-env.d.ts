@@ -5,6 +5,7 @@ declare module "element-plus/dist/locale/zh-cn.mjs";
 declare module "three";
 declare module "three/examples/jsm/loaders/FontLoader";
 declare module "three/examples/jsm/geometries/TextGeometry";
+declare const ElMessage: typeof import('element-plus/es')['ElMessage']
 declare global {
 }
 interface Navigator {
