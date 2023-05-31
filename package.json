@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite --mode dev",
     "build:dev": "vue-tsc && vite build --mode dev",
-    "build:git": "vue-tsc && vite build --mode git",
     "build:root": "vue-tsc && vite build --mode root",
     "build:pro": "vue-tsc && vite build --mode pro"
   },
