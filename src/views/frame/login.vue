@@ -23,6 +23,7 @@
         <el-form-item label="密码" prop="password">
           <MyInput
             type="text"
+            show-type="password"
             v-model="loginForm.password"
             placeholder="请输入密码"
             :clearable="true"

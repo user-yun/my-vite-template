@@ -9,6 +9,7 @@
     :suffixIcon="suffixIcon"
     :readonly="readonly"
     :formatter="formatter"
+    :type="showType"
   >
     <template #prefix v-if="!!uSlots.prefix">
       <slot name="prefix"></slot>
@@ -38,6 +39,7 @@ interface PROPSINT {
     | "Chinese"
     | "Letter"
     | "text"; // text
+  showType?: string;
   modelValue?: string | number;
   maxlength?: string | number;
   placeholder?: string;
