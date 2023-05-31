@@ -186,6 +186,7 @@ export default defineConfig(async ({ command, mode }) => {
       },
     },
     build: {
+      outDir: env.VITE_APP_OUTDIR,
       // 打包前先清空原有打包文件
       emptyOutDir: true,
       // 关闭文件计算
