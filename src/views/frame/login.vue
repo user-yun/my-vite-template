@@ -52,8 +52,8 @@ const router = useRouter();
 // 获取ENV配置信息
 const title = import.meta.env.VITE_APP_TITLE;
 const loginForm = ref({
-  username: "",
-  password: "",
+  username: "1",
+  password: "123456",
 });
 const formRef = ref<FormInstance>();
 const formRules = ref<FormRules>({
