@@ -58,7 +58,7 @@ const init = () => {
   // 网格中添加几何物体 场景中添加网格
   addSphereGeometry();
   // 网格中添加字体 三维物体中添加网格 场景中添加三维物体
-  addTextGeometry(); // 非同步,会加载在最后
+  // addTextGeometry(); // 非同步,会加载在最后
 
   // 添加辅助工具
   addHelper();
@@ -67,13 +67,16 @@ const init = () => {
   // 渲染器来渲染出整个场景 传递场景和摄像机
   // webGLRenderer.render(scene, camera);
   requestAnimationFrame(animationRender);
+
+  // 添加太阳系
+  addSolarSystem();
 };
 
 // 获取球缓冲几何体（SphereGeometry）
 const getSphereGeometry = () => {
   let radius = 1;
-  let widthSegments = 32;
-  let heightSegments = 32;
+  let widthSegments = 8;
+  let heightSegments = 8;
   // 球缓冲几何体（SphereGeometry）
   /**
     adius — 球体半径，默认为1。
@@ -221,6 +224,29 @@ const addSegments = () => {
   addMesh(object3D);
 };
 
+// 网格中添加几何物体 场景中添加网格
+const addSphereGeometry = () => {
+  // 创建一个网格(Mesh)对象 它包含了几何体(Geometry)(物体的形状) 材质(Material)(如何绘制物体，光滑还是平整，什么颜色，什么贴图等等)
+  // let sphereMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
+  // sphereMesh.position.set(meshList.length * interval, 0, 0);
+  // // 将网格添加到场景中
+  // scene.add(sphereMesh);
+  // meshList.push(sphereMesh);
+  for (let index = 0; index < 2; index++) {
+    addMesh(new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial()));
+  }
+
+  // 创建一个用于显示点（Points）的类
+  // let points = new THREE.Points(getSphereGeometry(), getPointsMaterial());
+  // points.position.set(meshList.length * interval, 0, 0);
+  // // 将点承载体添加到场景中
+  // scene.add(points);
+  // meshList.push(points);
+  for (let index = 0; index < 2; index++) {
+    addMesh(new THREE.Points(getSphereGeometry(), getPointsMaterial()));
+  }
+};
+
 // 网格中添加字体 三维物体中添加网格 场景中添加三维物体
 const addTextGeometry = async () => {
   let loadFont = (url: string) => {
@@ -261,29 +287,6 @@ const addTextGeometry = async () => {
   addMesh(object3D);
 };
 
-// 网格中添加几何物体 场景中添加网格
-const addSphereGeometry = () => {
-  // 创建一个网格(Mesh)对象 它包含了几何体(Geometry)(物体的形状) 材质(Material)(如何绘制物体，光滑还是平整，什么颜色，什么贴图等等)
-  // let sphereMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
-  // sphereMesh.position.set(meshList.length * interval, 0, 0);
-  // // 将网格添加到场景中
-  // scene.add(sphereMesh);
-  // meshList.push(sphereMesh);
-  for (let index = 0; index < 2; index++) {
-    addMesh(new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial()));
-  }
-
-  // 创建一个用于显示点（Points）的类
-  // let points = new THREE.Points(getSphereGeometry(), getPointsMaterial());
-  // points.position.set(meshList.length * interval, 0, 0);
-  // // 将点承载体添加到场景中
-  // scene.add(points);
-  // meshList.push(points);
-  for (let index = 0; index < 2; index++) {
-    addMesh(new THREE.Points(getSphereGeometry(), getPointsMaterial()));
-  }
-};
-
 // 添加网格或者3D到场景中
 const addMesh = (mesh: any) => {
   // 设置网格/三维物体位置
@@ -291,6 +294,23 @@ const addMesh = (mesh: any) => {
   // 将网格/三维物体添加到场景中
   scene.add(mesh);
   meshList.push(mesh);
+};
+
+// 添加辅助工具
+const addHelper = () => {
+  // 为了方便观察3D图像，添加三维坐标系对象
+  let axes = new THREE.AxesHelper(100); // 坐标系轴长设置为8
+  // 把三维坐标系 添加到场景中
+  scene.add(axes);
+  // 添加控制器
+  let control = new OrbitControls(camera, threeCanvasRef.value);
+  // 设置相机位置
+  camera.position.set(50, 50, 50);
+  // 设置哪个方向是摄像机的 "上"
+  camera.up.set(0, 1, 0);
+  // 设置相机看向的位置
+  camera.lookAt(0, 0, 0);
+  // control.update();
 };
 
 // 场景中添加平行光
@@ -311,18 +331,6 @@ const addDirectionalLight = () => {
   scene.add(light1, light2);
 };
 
-// 添加辅助工具
-const addHelper = () => {
-  // 为了方便观察3D图像，添加三维坐标系对象
-  let axes = new THREE.AxesHelper(100); // 坐标系轴长设置为8
-  // 把三维坐标系 添加到场景中
-  scene.add(axes);
-  // 添加控制器
-  let control = new OrbitControls(camera, threeCanvasRef.value);
-  camera.position.set(meshList.length + interval, 0, 16);
-  // control.update();
-};
-
 // 动画处理 自转动画
 const animationRender = (time: number) => {
   if (time - lastTime >= diffTime) {
@@ -333,10 +341,72 @@ const animationRender = (time: number) => {
       item.rotation.x = rot;
       item.rotation.y = rot;
     });
+    solarSystemMeshList.forEach((item: any, index: number) => {
+      // 改变网格旋转xy轴
+      let rot = time * speed;
+      item.rotation.y = rot;
+    });
     // 渲染器来渲染出整个场景 传递场景和摄像机
     webGLRenderer.render(scene, camera);
   }
   requestAnimationFrame(animationRender);
+};
+
+// 太阳系的数组
+let solarSystemMeshList: any = [];
+// 添加太阳系
+const addSolarSystem = () => {
+  // 创建太阳系3d网格 这样太阳地球都以太阳系网格为准
+  let solarSystem = new THREE.Object3D();
+  solarSystem.position.set(20, 20, 20);
+  scene.add(solarSystem);
+  solarSystemMeshList.push(solarSystem);
+
+  // 太阳网格
+  let sunMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
+  // 设置太阳的大小
+  sunMesh.scale.set(8, 8, 8);
+  // 设置太阳网格的位置
+  // sunMesh.position.set(20, 20, 20);
+  // scene.add(sunMesh);
+  // 不再采用场景为准 采用太阳系为准
+  solarSystem.add(sunMesh);
+  solarSystemMeshList.push(sunMesh);
+
+  // 创建地月系3d网格 这样地球月亮都以地月系为准
+  let earthOrbit = new THREE.Object3D();
+  earthOrbit.position.set(20, 0, 0);
+  solarSystem.add(earthOrbit);
+  solarSystemMeshList.push(earthOrbit);
+
+  // 地球网格
+  let earthMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
+  // 设置地球的大小
+  earthMesh.scale.set(1, 1, 1);
+  // 设置地球网格的位置
+  // earthMesh.position.set(20, 0, 0);
+  // scene.add(earthMesh);
+  // 不再采用场景为准 采用太阳为准
+  // sunMesh.add(earthMesh);
+  // 不再采用太阳为准 采用太阳系为准
+  // solarSystem.add(earthMesh);
+  // 不再采用太阳系为准 采用地月系为准
+  earthOrbit.add(earthMesh);
+  solarSystemMeshList.push(earthMesh);
+
+  // 可以创建月系,但是也可直接用月球
+  // let moonOrbit = new THREE.Object3D();
+  // moonOrbit.position.set(2, 0, 0);
+  // earthOrbit.add(moonOrbit);
+  // 月球网格
+  let moonhMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
+  // 设置月球的大小
+  moonhMesh.scale.set(0.25, 0.25, 0.25);
+  moonhMesh.position.set(2, 0, 0);
+  // 设置月球网格的位置
+  // moonOrbit.add(moonhMesh);
+  earthOrbit.add(moonhMesh);
+  solarSystemMeshList.push(moonhMesh);
 };
 onMounted(() => {
   init();
