@@ -69,6 +69,52 @@ const init = () => {
   requestAnimationFrame(animationRender);
 };
 
+// 获取球缓冲几何体（SphereGeometry）
+const getSphereGeometry = () => {
+  let radius = 1;
+  let widthSegments = 32;
+  let heightSegments = 32;
+  // 球缓冲几何体（SphereGeometry）
+  /**
+    adius — 球体半径，默认为1。
+    widthSegments — 水平分段数（沿着经线分段），最小值为3，默认值为32。
+    heightSegments — 垂直分段数（沿着纬线分段），最小值为2，默认值为16。
+    phiStart — 指定水平（经线）起始角度，默认值为0。。
+    phiLength — 指定水平（经线）扫描角度的大小，默认值为 Math.PI * 2。
+    thetaStart — 指定垂直（纬线）起始角度，默认值为0。
+    thetaLength — 指定垂直（纬线）扫描角度大小，默认值为 Math.PI。
+   */
+  return new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+};
+
+// 获取立方几何体(BoxGeometry)
+const getBoxGeometry = () => {
+  // 创建一个包含盒子信息的立方几何体(BoxGeometry)
+  /**
+    width — X轴上面的宽度，默认值为1。
+    height — Y轴上面的高度，默认值为1。
+    depth — Z轴上面的深度，默认值为1。
+    widthSegments — （可选）宽度的分段数，默认值是1。
+    heightSegments — （可选）高度的分段数，默认值是1。
+    depthSegments — （可选）深度的分段数，默认值是1。
+   */
+  let boxWidth = 1;
+  let boxHeight = 1;
+  let boxDepth = 1;
+  let widthSegments = 8;
+  let heightSegments = 8;
+  let depthSegments = 8;
+  // 四边形的原始几何类，它通常使用构造函数所提供的“width”、“height”、“depth”参数
+  return new THREE.BoxGeometry(
+    boxWidth,
+    boxHeight,
+    boxDepth,
+    widthSegments,
+    heightSegments,
+    depthSegments
+  );
+};
+
 // 获取使用受灯光影响的MeshPhongMaterial材质
 const getMeshPhongMaterial = () => {
   // 使用受灯光影响的MeshPhongMaterial材质 颜色的值可以用css方式和十六进制来表示
@@ -107,25 +153,24 @@ const getPointsMaterial = () => {
 
 // 网格中添加几何物体 场景中添加网格
 const addGeometry = () => {
-  // 创建一个包含盒子信息的立方几何体(BoxGeometry)
-  let boxWidth = 1;
-  let boxHeight = 1;
-  let boxDepth = 1;
-  // 四边形的原始几何类，它通常使用构造函数所提供的“width”、“height”、“depth”参数
-  let boxGeometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-  for (let index = 0; index < 6; index++) {
+  for (let index = 0; index < 2; index++) {
     // 创建一个基本的材质并设置它的颜色 颜色的值可以用css方式和十六进制来表示
     // let boxMeshBasicMaterial = new THREE.MeshBasicMaterial({ color: 0x44aa88 });
     // 改变材质 改成会受灯光影响的MeshPhongMaterial材质
     // let boxMeshPhongMaterial = new THREE.MeshPhongMaterial({ color: item });
     // 创建一个网格(Mesh)对象 它包含了几何体(Geometry)(物体的形状) 材质(Material)(如何绘制物体，光滑还是平整，什么颜色，什么贴图等等)
-    // let boxMesh = new THREE.Mesh(boxGeometry, boxMeshBasicMaterial);
-    // let boxMesh = new THREE.Mesh(boxGeometry, boxMeshPhongMaterial);
-    let boxMesh = new THREE.Mesh(boxGeometry, getMeshPhongMaterial());
-    boxMesh.position.set(index * interval, 0, 0);
-    // 将网格添加到场景中
-    scene.add(boxMesh);
-    meshList.push(boxMesh);
+    // let boxMesh = new THREE.Mesh(getBoxGeometry(), boxMeshBasicMaterial);
+    // let boxMesh = new THREE.Mesh(getBoxGeometry(), boxMeshPhongMaterial);
+    // let boxMesh = new THREE.Mesh(getBoxGeometry(), getMeshPhongMaterial());
+    // boxMesh.position.set(meshList.length * interval, 0, 0);
+    // // 将网格添加到场景中
+    // scene.add(boxMesh);
+    // meshList.push(boxMesh);
+    addMesh(new THREE.Mesh(getBoxGeometry(), getMeshPhongMaterial()));
+  }
+
+  for (let index = 0; index < 2; index++) {
+    addMesh(new THREE.Points(getBoxGeometry(), getPointsMaterial()));
   }
 };
 
@@ -167,12 +212,13 @@ const addSegments = () => {
   // 也可以添加到三维物体后再添加到场景中
   // 创建一个三维物体
   let object3D = new THREE.Object3D();
-  object3D.position.set(meshList.length * interval, 0, 0);
   // 将网格添加到三维物体中
   object3D.add(lineSegments);
-  // 将线添加到场景中
-  scene.add(object3D);
-  meshList.push(object3D);
+  // object3D.position.set(meshList.length * interval, 0, 0);
+  // // 将线添加到场景中
+  // scene.add(object3D);
+  // meshList.push(object3D);
+  addMesh(object3D);
 };
 
 // 网格中添加字体 三维物体中添加网格 场景中添加三维物体
@@ -206,47 +252,45 @@ const addTextGeometry = async () => {
   textGeometry.boundingBox.getCenter(textMesh.position).multiplyScalar(-1);
   // 创建一个三维物体
   let object3D = new THREE.Object3D();
-  object3D.position.set(meshList.length * interval, 0, 0);
   // 将网格添加到三维物体中
   object3D.add(textMesh);
-  // 将三维物体添加到场景中
-  scene.add(object3D);
-  meshList.push(object3D);
+  // object3D.position.set(meshList.length * interval, 0, 0);
+  // // 将三维物体添加到场景中
+  // scene.add(object3D);
+  // meshList.push(object3D);
+  addMesh(object3D);
 };
 
 // 网格中添加几何物体 场景中添加网格
 const addSphereGeometry = () => {
-  let radius = 1;
-  let widthSegments = 32;
-  let heightSegments = 32;
-  // 球缓冲几何体（SphereGeometry）
-  /**
-    adius — 球体半径，默认为1。
-    widthSegments — 水平分段数（沿着经线分段），最小值为3，默认值为32。
-    heightSegments — 垂直分段数（沿着纬线分段），最小值为2，默认值为16。
-    phiStart — 指定水平（经线）起始角度，默认值为0。。
-    phiLength — 指定水平（经线）扫描角度的大小，默认值为 Math.PI * 2。
-    thetaStart — 指定垂直（纬线）起始角度，默认值为0。
-    thetaLength — 指定垂直（纬线）扫描角度大小，默认值为 Math.PI。
-   */
-  let sphereGeometry = new THREE.SphereGeometry(
-    radius,
-    widthSegments,
-    heightSegments
-  );
   // 创建一个网格(Mesh)对象 它包含了几何体(Geometry)(物体的形状) 材质(Material)(如何绘制物体，光滑还是平整，什么颜色，什么贴图等等)
-  let sphereMesh = new THREE.Mesh(sphereGeometry, getMeshPhongMaterial());
-  sphereMesh.position.set(meshList.length * 3, 0, 0);
-  // 将网格添加到场景中
-  scene.add(sphereMesh);
-  meshList.push(sphereMesh);
+  // let sphereMesh = new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial());
+  // sphereMesh.position.set(meshList.length * interval, 0, 0);
+  // // 将网格添加到场景中
+  // scene.add(sphereMesh);
+  // meshList.push(sphereMesh);
+  for (let index = 0; index < 2; index++) {
+    addMesh(new THREE.Mesh(getSphereGeometry(), getMeshPhongMaterial()));
+  }
 
   // 创建一个用于显示点（Points）的类
-  let points = new THREE.Points(sphereGeometry, getPointsMaterial());
-  points.position.set(meshList.length * interval, 0, 0);
-  // 将点承载体添加到场景中
-  scene.add(points);
-  meshList.push(points);
+  // let points = new THREE.Points(getSphereGeometry(), getPointsMaterial());
+  // points.position.set(meshList.length * interval, 0, 0);
+  // // 将点承载体添加到场景中
+  // scene.add(points);
+  // meshList.push(points);
+  for (let index = 0; index < 2; index++) {
+    addMesh(new THREE.Points(getSphereGeometry(), getPointsMaterial()));
+  }
+};
+
+// 添加网格或者3D到场景中
+const addMesh = (mesh: any) => {
+  // 设置网格/三维物体位置
+  mesh.position.set(meshList.length * interval, 0, 0);
+  // 将网格/三维物体添加到场景中
+  scene.add(mesh);
+  meshList.push(mesh);
 };
 
 // 场景中添加平行光
@@ -267,6 +311,7 @@ const addDirectionalLight = () => {
   scene.add(light1, light2);
 };
 
+// 添加辅助工具
 const addHelper = () => {
   // 为了方便观察3D图像，添加三维坐标系对象
   let axes = new THREE.AxesHelper(100); // 坐标系轴长设置为8
@@ -278,6 +323,7 @@ const addHelper = () => {
   // control.update();
 };
 
+// 动画处理 自转动画
 const animationRender = (time: number) => {
   if (time - lastTime >= diffTime) {
     lastTime = time;
