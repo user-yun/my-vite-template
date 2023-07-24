@@ -25,6 +25,9 @@ const getTemplateDemo = () => {
 const frameIdentComponent = defineAsyncComponent(
   () => import("@/views/frame/index.vue")
 );
+const routerView = defineAsyncComponent(
+  () => import("@/views/frame/routerView.vue")
+);
 const modules = import.meta.glob("@/views/business/*/*.vue");
 // 读取路由框架识别字段，配置父级路由时需要此字段识别，根据接口动态配置路由时，需要接口配合
 const frameIdent = import.meta.env.VITE_APP_FRAME_IDENT;
@@ -39,6 +42,8 @@ const handlerRouters = (
     let component: RouteComponent;
     if (e.component == frameIdent) {
       component = frameIdentComponent;
+    } else if (e.component == "routerView") {
+      component = routerView;
     } else {
       component = defineAsyncComponent(
         modules[e.component as string] as AsyncComponentLoader

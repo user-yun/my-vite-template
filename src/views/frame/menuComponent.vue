@@ -5,26 +5,30 @@
       :index="subMenuItem.path"
     >
       <template #title>
-        <el-icon v-if="subMenuItem.icon">
-          <component :is="subMenuItem.icon"></component>
+        <el-icon v-if="subMenuItem.meta.icon">
+          <component :is="subMenuItem.meta.icon"></component>
         </el-icon>
-        <span>{{ subMenuItem.title }}</span>
+        <span>{{ subMenuItem.meta.title }}</span>
       </template>
       <menuComponent :menuData="subMenuItem.children"></menuComponent>
     </el-sub-menu>
     <el-menu-item v-else :index="subMenuItem.path" :route="subMenuItem">
-      <el-icon v-if="subMenuItem.icon">
-        <component :is="subMenuItem.icon"></component>
+      <el-icon v-if="subMenuItem.meta.icon">
+        <component :is="subMenuItem.meta.icon"></component>
       </el-icon>
-      <span>{{ subMenuItem.title }}</span>
+      <span>{{ subMenuItem.meta.title }}</span>
     </el-menu-item>
   </template>
 </template>
 <script setup lang="ts">
 interface MENUDATAINT {
   path: string;
-  title: string;
-  icon: string;
+  name?: string;
+  component?: string;
+  meta: {
+    title?: string;
+    icon?: string;
+  };
   children?: MENUDATAINT[];
 }
 interface PROPSINT {

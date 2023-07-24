@@ -25,7 +25,6 @@
               mode="horizontal"
               :router="true"
               :unique-opened="true"
-              @select="topMenuSelect"
             >
               <el-menu-item
                 v-for="subMenuItem in allMenuListData"
@@ -33,10 +32,10 @@
                 :index="subMenuItem.path"
                 :route="subMenuItem"
               >
-                <el-icon v-if="subMenuItem.icon">
-                  <component :is="subMenuItem.icon"></component>
+                <el-icon v-if="subMenuItem.meta.icon">
+                  <component :is="subMenuItem.meta.icon"></component>
                 </el-icon>
-                <span>{{ subMenuItem.title }}</span>
+                <span>{{ subMenuItem.meta.title }}</span>
               </el-menu-item>
             </el-menu>
             <div v-else class="fold-expand">
@@ -137,31 +136,25 @@ const topMenuActive = computed(() => {
 // 所有菜单展示数据，顶部菜单时需要
 const allMenuListData = ref();
 // 左侧菜单展示数据，只有左侧菜单需要
-const leftMenuListData = ref();
-// 模拟接口返回的菜单数据
-import("./MenusData").then((res) => {
-  if (topMenu) {
-    allMenuListData.value = res.default;
-    let findMenuListData = allMenuListData.value.find((item: any) => {
-      return topMenuActive.value == item.path;
-    });
-    if (
-      findMenuListData &&
-      findMenuListData.children &&
-      findMenuListData.children.length
-    ) {
-      leftMenuListData.value = findMenuListData.children;
-    }
-  } else {
-    leftMenuListData.value = res.default;
-  }
+const leftMenuListData = computed(() => {
+  if (allMenuListData.value) {
+    if (topMenu) {
+      let findMenuListData = allMenuListData.value.find(
+        (item: any) => topMenuActive.value == item.path
+      );
+      if (
+        findMenuListData &&
+        findMenuListData.children &&
+        findMenuListData.children.length
+      )
+        return findMenuListData.children;
+    } else return allMenuListData.value;
+  } else return [];
 });
-// 启用顶部菜单时，需要根据顶部菜单重新渲染左侧菜单
-const topMenuSelect = (index: string, indexPath: string[], item: any) => {
-  if (item && item.route && item.route.children) {
-    leftMenuListData.value = item.route.children;
-  }
-};
+// 模拟接口返回的菜单数据
+import("../../routes/routersData").then(
+  (res) => (allMenuListData.value = res.default)
+);
 // 下拉菜单点击事件
 const dropdownItemClick = (type: number) => {
   if (type == 0) {
@@ -174,11 +167,9 @@ const dropdownItemClick = (type: number) => {
 const isCollapse = ref();
 const isCollapseHandler = () => {
   isCollapse.value = !isCollapse.value;
-  if (isCollapse.value) {
+  if (isCollapse.value)
     document.documentElement.style.setProperty("--el-aside-width", "64px");
-  } else {
-    document.documentElement.style.setProperty("--el-aside-width", "200px");
-  }
+  else document.documentElement.style.setProperty("--el-aside-width", "200px");
 };
 // 全屏事件处理
 const { toggle: toggleFullscreen, isFullscreen } = useFullscreen();
